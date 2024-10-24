@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Declarative Imports</title>
+    <script type="importmap">
+    {
+        "imports": {
+            "dashedstyles": "./dashedstyles.css",
+            "solidstyles": "./solidstyles.css",
+            "toggleBorderSizes": "./toggleBorderSizes.js"
+        }
+    }
+    </script>
+    <script type="module" src="./ToggleMyCSS.js"></script>
+</head>
+<body>
+    <h1>Dashed Styles in Light DOM</h1>
+    <toggle-my-css importcss="solidstyles">
+        <template shadowrootmode="open">
+            <h1>Toggle My CSS 1</h1>
+            <p></p>
+            <button>Toggle my CSS</button>
+        </template>
+    </toggle-my-css>
+
+    <toggle-my-css importcss="solidstyles">
+        <template shadowrootmode="open">
+            <h1>Toggle My CSS 2</h1>
+            <p></p>
+            <button>Toggle my CSS</button>
+        </template>
+    </toggle-my-css>
+
+    <p>Toggle in all exported CSSStyleSheets:</p>
+    <button id="toggle-border-sizes">Toggle border sizes</button>
+
+    <script type="module">
+        import stylesheet from 'dashedstyles'  with { type: "css" };
+        import { toggleBorderSizes } from 'toggleBorderSizes';
+
+        document.adoptedStyleSheets = [stylesheet];
+
+        document.getElementById('toggle-border-sizes').addEventListener('click', () => {
+            toggleBorderSizes();
+        });
+    </script>
+</body>
+</html>
